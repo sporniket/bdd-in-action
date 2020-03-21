@@ -19,7 +19,8 @@ This tutorial project is managed as following :
 * A **branch** will focus on a specific stack defined by : the JDK version, the JUnit version, the Spring-boot version.
 * The project will use Spring-jersey, in other words JAX-RS (JSR-370). This choice allow an easier migration from other JAX-RS based framework, like RestEASY.
 * The **issues** are organised to design the project from scratch. They deal with progressively address the various requirement (in short, be addressable through http protocol, use a database, use external apis), and at the same time, they serve as functionnal specifications with a user story and a test suite. Some issue are purely technical, in order to setup a specific tool to enhance the quality of the codebase.
-* In a given branch, each commit deals with an issue, in the same order. In other words, the first commit of the branch deals with the issue #1, the second commit deals with issue #2, and so on...
+* In a given branch, each issue will be dealt with in order, with a unique commit. In other words, the first commit of the branch resolves the issue #1, the second commit resolves issue #2, and so on...
+* Issues will stay open, since it is part of the reference material.
 * **Any commit in the _master_ branch will be followed by a rebase of each tutorial branch !**
 
 ### Licence
