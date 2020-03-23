@@ -10,6 +10,8 @@ import javax.ws.rs.Produces;
 
 import org.springframework.stereotype.Controller;
 
+import com.sporniket.littlecauldron.aspect.LogEntryAndExit;
+
 @Controller
 @Path("/catalog")
 public class ControllerCatalog
@@ -19,6 +21,7 @@ public class ControllerCatalog
 	@GET
 	@Produces(APPLICATION_JSON)
 	@Path("/products/{id}")
+	@LogEntryAndExit
 	public ResourceProduct getProduct(@PathParam("id") String id)
 	{
 		if (LC_01.getId().equals(id))
