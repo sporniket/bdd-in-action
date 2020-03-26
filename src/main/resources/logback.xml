@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+	<!--=== BEGIN from org.springframework.boot.logging.logback/defaults.xml === -->
+	<conversionRule conversionWord="clr"
+		converterClass="org.springframework.boot.logging.logback.ColorConverter" />
+	<conversionRule conversionWord="wex"
+		converterClass="org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter" />
+	<conversionRule conversionWord="wEx"
+		converterClass="org.springframework.boot.logging.logback.ExtendedWhitespaceThrowableProxyConverter" />
+	<!-- edited for outputing global registered value -->
+	<property name="CONSOLE_LOG_PATTERN"
+		value="${CONSOLE_LOG_PATTERN:-%clr(%d{${LOG_DATEFORMAT_PATTERN:-yyyy-MM-dd HH:mm:ss.SSS}}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([){faint}%clr(%-44.44X{request_id}){yellow}%clr(]){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}}" />
+	<!-- edited for outputing global registered value -->
+	<property name="FILE_LOG_PATTERN"
+		value="${FILE_LOG_PATTERN:-%d{${LOG_DATEFORMAT_PATTERN:-yyyy-MM-dd HH:mm:ss.SSS}} ${LOG_LEVEL_PATTERN:-%5p} ${PID:- } --- [%-44.44X{request_id}] [%t] %-40.40logger{39} : %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}}" />
+
+	<logger name="org.apache.catalina.startup.DigesterFactory"
+		level="ERROR" />
+	<logger name="org.apache.catalina.util.LifecycleBase"
+		level="ERROR" />
+	<logger name="org.apache.coyote.http11.Http11NioProtocol"
+		level="WARN" />
+	<logger name="org.apache.sshd.common.util.SecurityUtils"
+		level="WARN" />
+	<logger name="org.apache.tomcat.util.net.NioSelectorPool"
+		level="WARN" />
+	<logger
+		name="org.eclipse.jetty.util.component.AbstractLifeCycle"
+		level="ERROR" />
+	<logger name="org.hibernate.validator.internal.util.Version"
+		level="WARN" />
+	<!--=== END from org.springframework.boot.logging.logback/defaults.xml === -->
+	
+	<!--=== BEGIN from org.springframework.boot.logging.logback/base.xml === -->
+	<property name="LOG_FILE" value="${LOG_FILE:-${LOG_PATH:-${LOG_TEMP:-${java.io.tmpdir:-/tmp}}}/spring.log}"/>
+	<include resource="org/springframework/boot/logging/logback/console-appender.xml" />
+	<include resource="org/springframework/boot/logging/logback/file-appender.xml" />
+	<root level="INFO">
+		<appender-ref ref="CONSOLE" />
+		<appender-ref ref="FILE" />
+	</root>
+	<!--=== END from org.springframework.boot.logging.logback/base.xml === -->
+</configuration>

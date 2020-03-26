@@ -17,7 +17,7 @@ import com.sporniket.littlecauldron.api.catalog.ResourceProduct;
 import com.sporniket.littlecauldron.utils.JsonHelper;
 
 @SpringBootTest(classes = ApiCatalogApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class ProdcutsIT
+public class ProductsIT
 {
 	private static final String FORMAT_REST_CALL_URL = "http://localhost:%s%s";
 
