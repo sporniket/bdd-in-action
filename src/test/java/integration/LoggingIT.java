@@ -1,8 +1,12 @@
 package integration;
 
 import static java.lang.String.format;
+import static java.util.Arrays.asList;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.springframework.boot.logging.LogLevel.WARN;
+import static org.springframework.http.HttpMethod.GET;
+
+import java.util.Arrays;
 
 import javax.annotation.PostConstruct;
 
@@ -17,6 +21,8 @@ import org.springframework.boot.test.system.CapturedOutput;
 import org.springframework.boot.test.system.OutputCaptureExtension;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 
 import com.sporniket.littlecauldron.api.catalog.ApiCatalogApplication;
@@ -38,6 +44,8 @@ public class LoggingIT
 	private static final String FORMAT_REST_CALL_PATH = "/catalog/products/%s";
 
 	private static final String FORMAT_REST_CALL_URL = "http://localhost:%s%s";
+
+	private static final String PATTERN_RANDOM_REQUEST_ID = "\\[catalog-[-0-9a-f]{36}\\]";
 
 	private static final String TARGET_LOGGER = AuditEntryAndExitLogger.class.getName();
 
@@ -69,6 +77,17 @@ public class LoggingIT
 		return restTemplate.getForEntity(effectiveCall, String.class);
 	}
 
+	private ResponseEntity<String> performCallWithRequestId(String idProduct, String idRequest)
+	{
+		final String effectiveCall = format(restCallPath, idProduct);
+		HttpHeaders headers = new HttpHeaders();
+		if (null != idRequest)
+		{
+			headers.add("X-Request-Id", idRequest);
+		}
+		return restTemplate.exchange(effectiveCall, GET, new HttpEntity<>(null, headers), String.class);
+	}
+
 	@AfterEach
 	public void restoreErrorLogging()
 	{
@@ -81,6 +100,39 @@ public class LoggingIT
 		loggingSystem = LoggingSystem.get(ClassLoader.getSystemClassLoader());
 		backup = loggingSystem.getLoggerConfiguration(TARGET_LOGGER).getConfiguredLevel();
 		forceLogLevel(loggingSystem, TARGET_LOGGER, LogLevel.DEBUG);
+	}
+
+	@Test
+	@ExtendWith(OutputCaptureExtension.class)
+	public void shouldGenerateRequestIdWhenHeaderIsBlank(CapturedOutput logs)
+	{
+		performCallWithRequestId("LC01", "\t");
+
+		Arrays.asList(logs.toString().split("\n")).stream().forEach(l -> {
+			then(l).containsPattern(PATTERN_RANDOM_REQUEST_ID);
+		});
+	}
+
+	@Test
+	@ExtendWith(OutputCaptureExtension.class)
+	public void shouldGenerateRequestIdWhenHeaderIsEmpty(CapturedOutput logs)
+	{
+		performCallWithRequestId("LC01", "\t");
+
+		asList(logs.toString().split("\n")).stream().forEach(l -> {
+			then(l).containsPattern(PATTERN_RANDOM_REQUEST_ID);
+		});
+	}
+
+	@Test
+	@ExtendWith(OutputCaptureExtension.class)
+	public void shouldGenerateRequestIdWhenNoHeader(CapturedOutput logs)
+	{
+		performCall("LC01");
+
+		asList(logs.toString().split("\n")).stream().forEach(l -> {
+			then(l).containsPattern(PATTERN_RANDOM_REQUEST_ID);
+		});
 	}
 
 	@Test
@@ -129,6 +181,17 @@ public class LoggingIT
 				.contains(EXPECTED_TRACE_WRONG_CALL_DEBUG_ENTRY)//
 				.contains(EXPECTED_TRACE_WRONG_CALL_DEBUG_ERROR)//
 				.doesNotContain(EXPECTED_TRACE_WRONG_CALL_ERROR);
+	}
+
+	@Test
+	@ExtendWith(OutputCaptureExtension.class)
+	public void shouldUseRequestIdWhenHeaderHasValue(CapturedOutput logs)
+	{
+		performCallWithRequestId("LC01", "abc123");
+
+		asList(logs.toString().split("\n")).stream().forEach(l -> {
+			then(l).contains("[abc123                                      ]");
+		});
 	}
 
 }

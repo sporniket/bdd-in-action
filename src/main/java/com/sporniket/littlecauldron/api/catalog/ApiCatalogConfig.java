@@ -13,6 +13,7 @@ public class ApiCatalogConfig extends ResourceConfig
 		register(ControllerCatalog.class);
 		register(HandlerForThrowables.class);
 		register(HandlerForApiCatalogException.class);
+		register(FilterForRequestId.class);
 	}
 
 }
