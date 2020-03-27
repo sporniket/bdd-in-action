@@ -37,6 +37,14 @@ This tutorial project is managed as following :
 
 > Do not use **bdd-in-action** if this project is not suitable for your project
 
+## 3. How to use **bdd-in-action** ?
+
+To get the latest available code by cloning the git repository, and switching to a the branch using the stack of interest.
+
+	git clone https://github.com/sporniket/bdd-in-action.git
+	cd bdd-in-action
+	git checkout jdk8--junit5--spring-boot-2.2.5
+
 ### Starting the local database instances
 
 You will need docker and docker-compose :
@@ -62,14 +70,26 @@ docker-compose down && docker-compose up
 [development](http://localhost:50080/?pgsql=db-dev&username=lcaadmin&db=postgres&ns=lca&auth[driver]=pgsql)
 [continuous integration](http://localhost:50080/?pgsql=db-ci&username=lcaadmin&db=postgres&ns=lca&auth[driver]=pgsql)
 
+### Running the project
 
-## 3. How to use **bdd-in-action** ?
+Usually, you want to use the persisted local database :
 
-To get the latest available code, one must clone the git repository. Then you may launch all the 'integration test'.
+```
+spring_profiles_active="localdev" mvn clean spring-boot:run
+```
 
-	git clone https://github.com/sporniket/bdd-in-action.git
-	cd bdd-in-action
-	mvn clean verify
+When you are writing and testing a liquibase changeset, you want to use the local CI database :
+
+```
+spring_profiles_active="localci" mvn clean spring-boot:run
+```
+
+When launching the CI, you want to use local CI database :
+
+```
+spring_profiles_active="localci" mvn clean verify
+```
+
 
 ## 4. Known issues
 See the [project issues](https://github.com/sporniket/bdd-in-action/issues) page.
