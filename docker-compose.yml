@@ -1,0 +1,34 @@
+version:                       '3.3'
+
+services:
+  # A persisting instance for your local development and testing needs
+  # e.g. using 'mvn spring-boot:run'
+  db-dev:
+    build:                     ./docker-build/postgresql
+    privileged: true
+    ports:
+      - 54320:5432
+    environment:
+      POSTGRES_PASSWORD: 1Super.password
+      #PGPORT: 54320
+    volumes:
+      - type:                  bind
+        source:                ./docker-mount/db-dev/pgdata
+        target:                /var/lib/postgresql/data
+
+  # A volatile instance for running automated IT tests.
+  # e.g. using 'mvn verify'
+  db-ci:
+    build:                     ./docker-build/postgresql
+    ports:
+      - 54321:5432
+    environment:
+      POSTGRES_PASSWORD: 1Super.password
+      #PGPORT: 54321
+
+  # A database client in html
+  adminer:
+    image:                     adminer
+    restart:                   always
+    ports:
+      - 50080:8080

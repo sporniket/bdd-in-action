@@ -34,6 +34,32 @@ This tutorial project is managed as following :
 
 **bdd-in-action** is a project for a fictionnal company named 'Little Cauldron ltd.' that produces and sells little cauldron for personnal use. It want to build a webstore consisting of a dedicated api to manage its catalog of products. This project will be called 'api-catalog'.
 
+### Starting the local database instances
+
+You will need docker and docker-compose :
+
+```
+Docker version 19.03.2, build 6a30dfc
+docker-compose version 1.21.2, build a133471
+```
+
+* The first time, and then each time you want to drop your development database to restart from scratch
+
+```
+./resetDevDb.bash
+```
+
+* Start the database instances (we force a `docker-compose down` to drop and recreate from scratch the CI database)
+
+```
+docker-compose down && docker-compose up
+```
+
+* Explore the databases using adminer : 
+[development](http://localhost:50080/?pgsql=db-dev&username=lcaadmin&db=postgres&ns=lca&auth[driver]=pgsql)
+[continuous integration](http://localhost:50080/?pgsql=db-ci&username=lcaadmin&db=postgres&ns=lca&auth[driver]=pgsql)
+
+
 > Do not use **bdd-in-action** if this project is not suitable for your project
 
 ## 3. How to use **bdd-in-action** ?
