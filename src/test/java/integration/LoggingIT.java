@@ -16,20 +16,16 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.logging.LogLevel;
 import org.springframework.boot.logging.LoggingSystem;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.system.CapturedOutput;
 import org.springframework.boot.test.system.OutputCaptureExtension;
 import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 
-import com.sporniket.littlecauldron.api.catalog.ApiCatalogApplication;
 import com.sporniket.littlecauldron.aspect.AuditEntryAndExitLogger;
 
-@SpringBootTest(classes = ApiCatalogApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class LoggingIT
+public class LoggingIT extends IntegrationTest
 {
 	private static final String EXPECTED_TRACE_RIGHT_CALL_DEBUG_ENTRY = "INVOKING  com.sporniket.littlecauldron.api.catalog.ControllerCatalog.getProduct(\"LC01\")";
 
@@ -52,9 +48,6 @@ public class LoggingIT
 	private LogLevel backup;
 
 	private LoggingSystem loggingSystem;
-
-	@LocalServerPort
-	int randomServerPort;
 
 	private String restCallPath;
 

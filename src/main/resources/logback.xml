@@ -41,4 +41,24 @@
 		<appender-ref ref="FILE" />
 	</root>
 	<!--=== END from org.springframework.boot.logging.logback/base.xml === -->
+
+	<springProfile name="localci">
+		<!-- Terse logging (hopefully none) to have neat output for 'mvn verify' -->
+		<root level="ERROR">
+			<appender-ref ref="CONSOLE" />
+			<appender-ref ref="FILE" />
+		</root>
+		<!-- Uncomment for temporary verbose logs from the project -->
+		<logger name="com.sporniket" level="DEBUG"/>
+	</springProfile>
+
+	<springProfile name="localdev">
+		<!-- Don't want logs from spring-boot and friends -->
+		<root level="WARN">
+			<appender-ref ref="CONSOLE" />
+			<appender-ref ref="FILE" />
+		</root>
+		<!-- Verbose logs from the project -->
+		<logger name="com.sporniket" level="DEBUG" />
+	</springProfile>
 </configuration>

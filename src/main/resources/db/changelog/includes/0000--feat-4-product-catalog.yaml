@@ -1,0 +1,30 @@
+databaseChangeLog:
+  - objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+  - changeSet:
+      id: 0000-01
+      author: David SPORN
+      changes:
+        - createTable:
+            schemaName:        lca
+            tableName:         Products
+            columns:
+              - column:
+                  name:          id
+                  type:          int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey:  true
+              - column:
+                  name:          sku
+                  type:          varchar
+                  constraints:
+                    unique:      true
+              - column:
+                  name:          label
+                  type:          varchar
+
+        - sql:
+            comment:             grant r/w access
+            sql:
+              SET search_path TO lca;
+              GRANT SELECT,INSERT,UPDATE ON TABLE Products TO lcacatalog;
