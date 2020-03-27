@@ -20,10 +20,12 @@
 	</properties>
 
 	<dependencies>
+		<!-- ====[ Spring-boot and friends ]==== -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-jersey</artifactId>
 		</dependency>
+		<!-- aop dependencies -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-aop</artifactId>
@@ -32,7 +34,26 @@
 			<groupId>org.aspectj</groupId>
 			<artifactId>aspectjweaver</artifactId>
 		</dependency>
+		<!-- liquibase dependencies -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-jdbc</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.liquibase</groupId>
+			<artifactId>liquibase-core</artifactId>
+		</dependency>
+		<!-- hibernate/jpa dependencies -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
 
+		<!-- ====[ TEST : Spring-boot and friends ]==== -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
@@ -43,6 +64,13 @@
 					<artifactId>junit-vintage-engine</artifactId>
 				</exclusion>
 			</exclusions>
+		</dependency>
+		<!-- ====[ TEST : Sporniket and friends ]==== -->
+		<dependency>
+			<groupId>com.sporniket.testing</groupId>
+			<artifactId>sporniket-testing-dbunit</artifactId>
+			<version>20.04.02</version>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 
@@ -71,6 +99,16 @@
 				</executions>
 				<configuration>
 					<runOrder>random</runOrder>
+				</configuration>
+			</plugin>
+			<!-- jpa/hibernate code generation -->
+			<plugin>
+				<groupId>com.sporniket.javabeans</groupId>
+				<artifactId>seeg-maven-plugin</artifactId>
+				<version>20.04.04</version>
+				<configuration>
+					<targetPackage>com.sporniket.littlecauldron.api.catalog.entities</targetPackage>
+					<schemaName>lca</schemaName>
 				</configuration>
 			</plugin>
 		</plugins>
