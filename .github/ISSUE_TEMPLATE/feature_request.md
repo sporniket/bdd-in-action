@@ -21,6 +21,10 @@ _the specs : schema evolution, 3rd party APIs to call, rules_
 
 # Test suite
 
-**When** _[something is given]/[something happen]_
+**When** _[something is given]_
 
-**Then** _[we should get something expected]/[we expect that something happen]_
+**When** _[something happen]_
+
+**Then** _[we should get something expected]_
+
+**Then** _[we expect that something happen]_
